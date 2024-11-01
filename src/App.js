@@ -6,6 +6,7 @@ import Home from "./pages/Home.jsx";
 import Heroes from "./pages/Heroes.jsx";
 import HeroDetail from "./pages/HeroDetail.jsx";
 import About from "./pages/About.jsx";
+import HeroesLayout from "./layouts/HeroesLayout.jsx";
 
 const App = () => (
   <ThemeProvider>
@@ -14,8 +15,10 @@ const App = () => (
         <MainLayout darkMode={darkMode} setDarkMode={setDarkMode}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/heroes" element={<Heroes />} />
-            <Route path="/heroes/:id" element={<HeroDetail />} />
+            <Route path="/heroes" element={<HeroesLayout />}>
+              <Route index element={<Heroes />} />
+              <Route path=":id" element={<HeroDetail />} />
+            </Route>
             <Route path="/about" element={<About />} />
           </Routes>
         </MainLayout>
