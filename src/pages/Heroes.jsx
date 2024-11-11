@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
+import HeroesLayout from "../layouts/HeroesLayout.jsx";
+import HeroDetail from "./HeroDetail.jsx";
 
 const Heroes = () => {
   const [characters, setCharacters] = useState([]);
@@ -9,6 +11,7 @@ const Heroes = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const fetchCharacters = async (page) => {
     setIsLoading(true);
@@ -38,33 +41,38 @@ const Heroes = () => {
   };
 
   return (
-    <Box
-      sx={{
-        height: 600,
-        width: "100%",
-        "& .MuiDataGrid-row": { cursor: "pointer" },
-      }}
-    >
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <DataGrid
-          rows={characters}
-          columns={[
-            { field: "id", headerName: "ID", width: 90 },
-            { field: "name", headerName: "Name", width: 250 },
-            { field: "status", headerName: "Status", width: 130 },
-          ]}
-          pageSize={10}
-          rowCount={totalPages * 10}
-          pagination
-          paginationMode="server"
-          onPageChange={handlePageChange}
-          loading={isLoading}
-          onRowClick={handleRowClick}
-        />
-      )}
-    </Box>
+    <HeroesLayout
+      mainContent={
+        <Box
+          sx={{
+            height: 600,
+            width: "100%",
+            "& .MuiDataGrid-row": { cursor: "pointer" },
+          }}
+        >
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
+            <DataGrid
+              rows={characters}
+              columns={[
+                { field: "id", headerName: "ID", width: 90 },
+                { field: "name", headerName: "Name", width: 250 },
+                { field: "status", headerName: "Status", width: 130 },
+              ]}
+              pageSize={10}
+              rowCount={totalPages * 10}
+              pagination
+              paginationMode="server"
+              onPageChange={handlePageChange}
+              loading={isLoading}
+              onRowClick={handleRowClick}
+            />
+          )}
+        </Box>
+      }
+      sidebarContent={id ? <HeroDetail id={id} /> : null}
+    />
   );
 };
 

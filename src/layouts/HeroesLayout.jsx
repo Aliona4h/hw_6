@@ -1,12 +1,19 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Box } from "@mui/material";
 
-const HeroesLayout = () => {
+const HeroesLayout = ({ mainContent, sidebarContent }) => {
   return (
-    <div>
-      <Outlet />
-    </div>
+    <Box sx={{ display: "flex" }}>
+      <Box sx={{ flex: 1 }}>{mainContent}</Box>
+      <Box
+        sx={{
+          width: 500,
+          padding: 2,
+        }}
+      >
+        {sidebarContent}
+      </Box>
+    </Box>
   );
 };
-
 export default HeroesLayout;
